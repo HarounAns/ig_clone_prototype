@@ -29,8 +29,16 @@ class Grid extends Component {
     }
 
     createGrid = () => {
+        const { posts, setPost } = this.props;
         const { imgUrls } = this.state;
-        return imgUrls.map(data => <img src={data} alt="" style={{width: '30vw', height: '30vw'}}/>)
+        
+        return imgUrls.map((imgUrl, i) => 
+            <img 
+                onClick={() => setPost({...posts[i], imgUrl})}
+                src={imgUrl} 
+                alt="" 
+                style={{width: '30vw', height: '30vw'}}/>
+        )
     }
 
     render() {

@@ -23,11 +23,19 @@ class UserProfileInfo extends Component {
                         <td>{email}</td>
                     </tr>
                     <tr>
-                        <td>Followers</td>
+                        <td>
+                            <a href="#" onClick={this.props.setSeeFollowers}>
+                                Followers
+                            </a>
+                        </td>
                         <td>{followers}</td>
                     </tr>
                     <tr>
-                        <td>Following</td>
+                        <td>
+                            <a href="#" onClick={this.props.setSeeFollowing}>
+                                Following
+                            </a>
+                        </td>
                         <td>{following}</td>
                     </tr>
                     <tr>
