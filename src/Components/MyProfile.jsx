@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { AppContext } from '../AppContext';
 
 import { Auth } from 'aws-amplify';
 import axios from "axios";
@@ -8,11 +7,11 @@ import Loading from './Loading';
 
 import Post from './Post';
 import Profile from './Profile';
+import NotificationBar from './NotificationBar';
 
 const { PRODUCTDB_API_URL } = config;
 
 class MyProfile extends Component {
-    static contextType = AppContext;
     constructor(props) {
         super(props);
 
@@ -31,9 +30,7 @@ class MyProfile extends Component {
 
     getUsersPosts = async () => {
         const { username } = await Auth.currentAuthenticatedUser();
-        console.log('username', username);
         const res = await axios.get(PRODUCTDB_API_URL + `/users/${username}/posts`);
-        console.log(res);
         const { Posts: posts, User: user } = res.data;
         this.setState({
             posts,
@@ -132,11 +129,15 @@ class MyProfile extends Component {
                 </div>
             )
 
-        return <Profile
-            user={user}
-            posts={posts}
-            setPost={(selectedPost) => this.setState({ selectedPost })} />;
-
+        return (
+            <div>
+                <NotificationBar />
+                <Profile
+                    user={user}
+                    posts={posts}
+                    setPost={(selectedPost) => this.setState({ selectedPost })} />;
+            </div>
+        )
     }
 }
 

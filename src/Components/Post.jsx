@@ -53,16 +53,22 @@ class Post extends Component {
             post: post.SK,
             user
         };
-        await axios.put(PRODUCTDB_API_URL + `/posts/like`, data);
 
+
+        // make it appear as if in the UI the like already was successful, so that it delivers a seemless experience
         this.setState({
             isPostLiked: true
         })
+        setLikes(likes + 1);
 
+        // actually try to make the request
         try {
-            setLikes(likes + 1);
+            await axios.put(PRODUCTDB_API_URL + `/posts/like`, data);
         } catch (error) {
-            console.error("couldnt set likes:", error);
+            this.setState({
+                isPostLiked: false
+            })
+            setLikes(likes - 1);
         }
     }
 
@@ -76,15 +82,22 @@ class Post extends Component {
             post: post.SK,
             user
         };
-        await axios.put(PRODUCTDB_API_URL + `/posts/unlike`, data);
 
+
+        // make it appear as if in the UI the unlike already was successful, so that it delivers a seemless experience
         this.setState({
             isPostLiked: false
         })
+        setLikes(likes - 1);
+
+        // actually try to make the request
         try {
-            setLikes(likes - 1);
+            await axios.put(PRODUCTDB_API_URL + `/posts/unlike`, data);
         } catch (error) {
-            console.error("couldnt set likes:", error);
+            this.setState({
+                isPostLiked: false
+            })
+            setLikes(likes + 1);
         }
     }
 

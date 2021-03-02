@@ -4,7 +4,6 @@ import { AppContext } from './AppContext';
 
 import aws_exports from './aws-exports';
 import AddPhoto from './Components/AddPhoto';
-import GetPhoto from './Components/GetPhoto';
 import MyProfile from './Components/MyProfile';
 import Search from './Components/Search/Search';
 
@@ -13,6 +12,16 @@ import { Amplify, Auth } from 'aws-amplify';
 import Navbar from './Components/Navbar/Navbar';
 import { screens } from './Screens';
 import Feed from './Components/Feed';
+import axios from 'axios';
+
+
+// configure all axios requests to add JWT to requests
+axios.interceptors.request.use(async (req) => {
+  const session = await Auth.currentSession();
+  const { jwtToken } = session.idToken;
+  req.headers.Authorization = jwtToken;
+  return req;
+});
 
 
 Amplify.configure(aws_exports);
